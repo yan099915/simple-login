@@ -38,7 +38,6 @@ module.exports = {
     //   login
     const { email, password } = req.headers;
     const resp = await application.findUser(email);
-    console.log(req.headers);
     if (resp.length === 0) {
       // if user was not  exist
       res.status(404).json({
