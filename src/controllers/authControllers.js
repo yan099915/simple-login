@@ -8,7 +8,7 @@ module.exports = {
     const { email, password } = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const checkUsernameExist = await application.findUser(username);
+    const checkUsernameExist = await application.findUser(email);
 
     if (checkUsernameExist.length === 0) {
       const data = {
@@ -83,7 +83,6 @@ module.exports = {
           });
         } else {
           // if password was wrong
-          console.log("password salah");
           failAttempt += 1;
           await application.updateUser(userId, failAttempt);
           res.status(403).json({
