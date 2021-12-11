@@ -51,6 +51,7 @@ module.exports = {
       const lastAttempt = new Date(resp[0].dataValues.last_attempt);
       const dateNow = new Date();
       let failAttempt = resp[0].dataValues.fail_attempt;
+      let timeLeft = lastAttempt.getMinutes() + 5 - dateNow.getMinutes();
 
       if (
         dateNow.getDate() === lastAttempt.getDate() &&
@@ -67,7 +68,7 @@ module.exports = {
       if (failAttempt > 2) {
         // user already entered wrong password more than 2 times
         res.status(403).json({
-          message: `You Entered Wrong Password ${failAttempt} times account has locked for 5 minutes`,
+          message: `Account has locked please wait ${timeLeft} minute before you try again`,
           data: email,
         });
       } else {
