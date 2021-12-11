@@ -18,9 +18,11 @@ module.exports = {
       // register
       try {
         const resp = await application.register(data);
+        const userData = resp.dataValues;
+        const token = jwt.sign(userData, process.env.SECRETKEY);
         res.status(201).json({
           message: "Register Success",
-          data: email,
+          accessToken: token,
         });
       } catch (error) {
         console.log(error);
@@ -74,11 +76,8 @@ module.exports = {
       } else {
         if (compare === true) {
           //  if password was correct
-          console.log("login sukses");
           await application.updateUser(userId, 0);
-          const token = jwt.sign(userData, process.env.SECRETKEY, {
-            expiresIn: "5m",
-          });
+          const token = jwt.sign(userData, process.env.SECRETKEY);
           res.status(200).json({
             message: "Login Success",
             accessToken: token,

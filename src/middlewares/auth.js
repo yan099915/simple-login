@@ -6,7 +6,6 @@ module.exports = {
     //register form validation
     const { body } = req;
     const registerSchema = joi.object({
-      email: joi.string().required(),
       password: joi.string().required().min(3),
       email: joi
         .string()
