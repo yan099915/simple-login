@@ -34,9 +34,9 @@ module.exports = {
   },
   login: async (req, res) => {
     //   login
-    const { email, password } = req.body;
+    const { email, password } = req.headers;
     const resp = await application.findUser(email);
-
+    console.log(req.headers);
     if (resp.length === 0) {
       // if user was not  exist
       res.status(404).json({
@@ -73,6 +73,7 @@ module.exports = {
       } else {
         if (compare === true) {
           //  if password was correct
+          console.log("login sukses");
           await application.updateUser(userId, 0);
           const token = jwt.sign(userData, process.env.SECRETKEY, {
             expiresIn: "5m",
